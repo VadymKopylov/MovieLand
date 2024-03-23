@@ -1,0 +1,15 @@
+MOVIES:
+  - ID: 1
+    NAME_RUSSIAN: "Побег из Шоушенка"
+    NAME_NATIVE: "The Shawshank Redemption"
+    YEAR_OF_RELEASE: "1994"
+    RATING: 8.89
+    PRICE: 123.45
+    PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1._SY209_CR0,0,140,209_.jpg"
+  - ID: 2
+    NAME_RUSSIAN: "Зеленая миля"
+    NAME_NATIVE: "The Green Mile"
+    YEAR_OF_RELEASE: "1999"
+    RATING: 8.88
+    PRICE: 134.67
+    PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1._SY209_CR0,0,140,209_.jpg"
