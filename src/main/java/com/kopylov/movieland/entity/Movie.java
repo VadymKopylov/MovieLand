@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Movie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String nameRussian;
     private String nameNative;
@@ -19,4 +19,8 @@ public class Movie {
     private double rating;
     private double price;
     private String picturePath;
+
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
 }

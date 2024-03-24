@@ -43,17 +43,10 @@ class MovieControllerTest extends AbstractBaseITest {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-//                .andExpect(content().json("[{\"id\": 1,\"nameRussian\": \"Побег из Шоушенка\"," +
-//                        "\"nameNative\":\"The Shawshank Redemption\",\"yearOfRelease\": \"1994\"," +
-//                        "\"rating\": 8.89,\"price\": 123.45," +
-//                        "\"picturePath\":\"https://images-na.ssl-images-amazon.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1._SY209_CR0,0,140,209_.jpg\"},{" +
-//                        "\"id\": 2,\"nameRussian\": \"Зеленая миля\",\"nameNative\": \"The Green Mile\"," +
-//                        "\"yearOfRelease\": \"1999\",\"rating\":8.88,\"price\": 134.67," +
-//                        "\"picturePath\":\"https://images-na.ssl-images-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1._SY209_CR0,0,140,209_.jpg\"}]"));
     }
 
     @Test
-    @DataSet(value = "datasets/movies/random_movies_dataset.yml")
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
     public void testGetRandomMovies_ReturnAllFieldsInJson() throws Exception {
         MvcResult result = mockMvc.perform(get("http://localhost:8080/api/v1/movies/random")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -72,7 +65,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/random_movies_dataset.yml")
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
     public void testGetRandomMovies_ReturnUniqueMovies() throws Exception {
         MvcResult result = mockMvc.perform(get("http://localhost:8080/api/v1/movies/random")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -91,5 +84,22 @@ class MovieControllerTest extends AbstractBaseITest {
 
         assertThat(movieIds, hasSize(3));
         assertThat(movieIds, hasSize(equalTo(new HashSet<>(movieIds).size())));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetMoviesByGenre() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].id").value(8))
+                .andExpect(jsonPath("$[*].nameRussian").value("Криминальное чтиво"))
+                .andExpect(jsonPath("$[*].nameNative").value("Pulp Fiction"))
+                .andExpect(jsonPath("$[*].yearOfRelease").value("1994"))
+                .andExpect(jsonPath("$[*].rating").value(8.9))
+                .andExpect(jsonPath("$[*].price").value(155.0))
+                .andExpect(jsonPath("$[*].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/61v%2BGcL1-xL._AC_SY679_.jpg"))
+                .andExpect(jsonPath("$[*].genre.id").value(2))
+                .andExpect(jsonPath("$[*].genre.name").value("криминал"));
     }
 }

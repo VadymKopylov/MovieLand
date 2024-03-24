@@ -11,4 +11,6 @@ import java.util.List;
 public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query(value = "SELECT * FROM movies ORDER BY RANDOM() LIMIT ?1", nativeQuery = true)
     List<Movie> findRandomMovies(int limit);
+
+    List<Movie> findByGenreId(Long genreId);
 }

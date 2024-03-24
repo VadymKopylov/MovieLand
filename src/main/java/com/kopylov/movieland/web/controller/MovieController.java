@@ -4,6 +4,7 @@ import com.kopylov.movieland.entity.Movie;
 import com.kopylov.movieland.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +25,10 @@ public class MovieController {
     @GetMapping("/random")
     public List<Movie> getRandomMovies() {
         return movieService.getRandomMovie();
+    }
+
+    @GetMapping("/genre/{genreId}")
+    public List<Movie> getMoviesByGenre(@PathVariable Long genreId) {
+        return movieService.getByGenre(genreId);
     }
 }
