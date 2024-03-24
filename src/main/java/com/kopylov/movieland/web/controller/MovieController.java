@@ -17,12 +17,12 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping
-    public List<Movie> getAllMovies(){
+    public List<Movie> getAllMovies() {
         return movieService.getAll();
     }
 
     @GetMapping("/random")
-    public List<Movie> getRandomMovies(){
+    public List<Movie> getRandomMovies() {
         return movieService.getRandomMovie();
     }
 }
