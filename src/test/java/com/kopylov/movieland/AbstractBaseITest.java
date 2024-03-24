@@ -2,13 +2,11 @@ package com.kopylov.movieland;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 
 @Testcontainers
-@TestPropertySource(properties = {"spring.datasource.url=jdbc:tc:postgresql://localhost/test"})
 public class AbstractBaseITest {
 
     private static final PostgreSQLContainer<?> POSTGRES_SQL_CONTAINER;
