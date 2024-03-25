@@ -3,12 +3,10 @@ package com.kopylov.movieland.web.controller;
 import com.kopylov.movieland.entity.Movie;
 import com.kopylov.movieland.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/movies")
@@ -18,8 +16,9 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping
-    public List<Movie> getAllMovies() {
-        return movieService.getAll();
+    public List<Movie> getAllMovies(@RequestParam(name = "rating", required = false) Optional<String> rating,
+                                    @RequestParam(name = "price", required = false) Optional<String> price) {
+        return movieService.getAll(rating, price);
     }
 
     @GetMapping("/random")
@@ -28,7 +27,9 @@ public class MovieController {
     }
 
     @GetMapping("/genre/{genreId}")
-    public List<Movie> getMoviesByGenre(@PathVariable Long genreId) {
-        return movieService.getByGenre(genreId);
+    public List<Movie> getMoviesByGenre(@PathVariable Long genreId,
+                                        @RequestParam(name = "rating", required = false) Optional<String> rating,
+                                        @RequestParam(name = "price", required = false) Optional<String> price) {
+        return movieService.getByGenre(genreId, rating, price);
     }
 }

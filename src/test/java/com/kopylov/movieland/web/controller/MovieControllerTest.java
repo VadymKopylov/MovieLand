@@ -102,4 +102,128 @@ class MovieControllerTest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[*].genre.id").value(2))
                 .andExpect(jsonPath("$[*].genre.name").value("криминал"));
     }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetAllMoviesWithSortingByRatingDesc() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+                        .param("rating", "desc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(8))
+                .andExpect(jsonPath("$[1].id").value(1))
+                .andExpect(jsonPath("$[2].id").value(2))
+                .andExpect(jsonPath("$[3].id").value(3))
+                .andExpect(jsonPath("$[4].id").value(7))
+                .andExpect(jsonPath("$[5].id").value(5))
+                .andExpect(jsonPath("$[6].id").value(6))
+                .andExpect(jsonPath("$[7].id").value(4));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetAllMoviesWithSortingByRatingAsc() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+                        .param("rating", "asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(4))
+                .andExpect(jsonPath("$[1].id").value(6))
+                .andExpect(jsonPath("$[2].id").value(5))
+                .andExpect(jsonPath("$[3].id").value(7))
+                .andExpect(jsonPath("$[4].id").value(3))
+                .andExpect(jsonPath("$[5].id").value(2))
+                .andExpect(jsonPath("$[6].id").value(1))
+                .andExpect(jsonPath("$[7].id").value(8));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetAllMoviesWithSortingByPriceDesc() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+                        .param("price", "desc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(8))
+                .andExpect(jsonPath("$[1].id").value(6))
+                .andExpect(jsonPath("$[2].id").value(7))
+                .andExpect(jsonPath("$[3].id").value(2))
+                .andExpect(jsonPath("$[4].id").value(1))
+                .andExpect(jsonPath("$[5].id").value(5))
+                .andExpect(jsonPath("$[6].id").value(3))
+                .andExpect(jsonPath("$[7].id").value(4));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetAllMoviesWithSortingByPriceAsc() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+                        .param("price", "asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(4))
+                .andExpect(jsonPath("$[1].id").value(3))
+                .andExpect(jsonPath("$[2].id").value(5))
+                .andExpect(jsonPath("$[3].id").value(1))
+                .andExpect(jsonPath("$[4].id").value(2))
+                .andExpect(jsonPath("$[5].id").value(7))
+                .andExpect(jsonPath("$[6].id").value(6))
+                .andExpect(jsonPath("$[7].id").value(8));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetMoviesByGenreWithSortingByRatingDesc() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
+                        .param("rating", "desc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[2].id").value(3))
+                .andExpect(jsonPath("$[3].id").value(6))
+                .andExpect(jsonPath("$[4].id").value(4));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetMoviesByGenreWithSortingByRatingAsc() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
+                        .param("rating", "asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(4))
+                .andExpect(jsonPath("$[1].id").value(6))
+                .andExpect(jsonPath("$[2].id").value(3))
+                .andExpect(jsonPath("$[3].id").value(2))
+                .andExpect(jsonPath("$[4].id").value(1));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetMoviesByGenreWithSortingByPriceDesc() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
+                        .param("price", "desc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(6))
+                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[2].id").value(1))
+                .andExpect(jsonPath("$[3].id").value(3))
+                .andExpect(jsonPath("$[4].id").value(4));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    public void testGetMoviesByGenreWithSortingByPriceAsc() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
+                        .param("price", "asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(4))
+                .andExpect(jsonPath("$[1].id").value(3))
+                .andExpect(jsonPath("$[2].id").value(1))
+                .andExpect(jsonPath("$[3].id").value(2))
+                .andExpect(jsonPath("$[4].id").value(6));
+    }
 }
