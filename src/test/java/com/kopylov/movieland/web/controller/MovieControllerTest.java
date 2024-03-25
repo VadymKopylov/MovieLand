@@ -37,8 +37,8 @@ class MovieControllerTest extends AbstractBaseITest {
     private MockMvc mockMvc;
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
-    @ExpectedDataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @ExpectedDataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetMovies_ReturnCorrectJson() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -46,7 +46,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetRandomMovies_ReturnAllFieldsInJson() throws Exception {
         MvcResult result = mockMvc.perform(get("http://localhost:8080/api/v1/movies/random")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -65,7 +65,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetRandomMovies_ReturnUniqueMovies() throws Exception {
         MvcResult result = mockMvc.perform(get("http://localhost:8080/api/v1/movies/random")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -87,7 +87,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetMoviesByGenre() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/2")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -104,7 +104,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetAllMoviesWithSortingByRatingDesc() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies")
                         .param("rating", "desc")
@@ -121,7 +121,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetAllMoviesWithSortingByRatingAsc() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies")
                         .param("rating", "asc")
@@ -138,7 +138,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetAllMoviesWithSortingByPriceDesc() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies")
                         .param("price", "desc")
@@ -155,7 +155,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetAllMoviesWithSortingByPriceAsc() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies")
                         .param("price", "asc")
@@ -172,7 +172,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetMoviesByGenreWithSortingByRatingDesc() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
                         .param("rating", "desc")
@@ -186,7 +186,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetMoviesByGenreWithSortingByRatingAsc() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
                         .param("rating", "asc")
@@ -200,7 +200,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetMoviesByGenreWithSortingByPriceDesc() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
                         .param("price", "desc")
@@ -214,7 +214,7 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies/movies_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetMoviesByGenreWithSortingByPriceAsc() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
                         .param("price", "asc")

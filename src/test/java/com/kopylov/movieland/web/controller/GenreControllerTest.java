@@ -25,8 +25,8 @@ class GenreControllerTest extends AbstractBaseITest {
     private MockMvc mockMvc;
 
     @Test
-    @DataSet(value = "datasets/genres/genres_dataset.yml")
-    @ExpectedDataSet(value = "datasets/genres/genres_dataset.yml")
+    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @ExpectedDataSet(value = "datasets/movies_and_genres_dataset.yml")
     public void testGetAllGenres() throws Exception {
         mockMvc.perform(get("http://localhost:8080/api/v1/genres")
                         .contentType(MediaType.APPLICATION_JSON))
