@@ -32,7 +32,7 @@ class DefaultGenreServiceTest {
     }
 
     @Test
-    void testGetAllCacheHit() {
+    void testGetAllCacheReturnDataFromCache() {
         Genre genre1 = new Genre(1L, "Драма");
         Genre genre2 = new Genre(2L, "Фантастика");
         genreCache.add(genre1);
