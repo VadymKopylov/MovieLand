@@ -1,5 +1,4 @@
-create table if not exists genres (
-    id   bigserial not null,
-    name varchar(255),
-    primary key (id)
+CREATE TABLE genres (
+             id SERIAL PRIMARY KEY,
+             name VARCHAR(100) UNIQUE
 );

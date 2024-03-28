@@ -1,5 +1,10 @@
-ALTER TABLE movies
-    ADD COLUMN genre_id BIGINT;
+CREATE TABLE movie_genre
+(
+    movie_id INTEGER NOT NULL,
+    genre_id INTEGER NOT NULL
+);
 
-ALTER TABLE movies
-    ADD CONSTRAINT fk_genre_id FOREIGN KEY (genre_id) REFERENCES genres (id);
+ALTER TABLE movie_genre
+    ADD CONSTRAINT movie_id_fk FOREIGN KEY (movie_id) REFERENCES "movies" (id);
+ALTER TABLE movie_genre
+    ADD CONSTRAINT genre_id_fk FOREIGN KEY (genre_id) REFERENCES "genres" (id);

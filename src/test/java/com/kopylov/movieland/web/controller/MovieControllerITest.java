@@ -31,24 +31,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DBRider
 @AutoConfigureMockMvc
 @Slf4j
-class MovieControllerTest extends AbstractBaseITest {
+class MovieControllerITest extends AbstractBaseITest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
-    @ExpectedDataSet(value = "datasets/movies_and_genres_dataset.yml")
-    public void testGetMovies_ReturnCorrectJson() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+    @DataSet(value = "datasets/movies_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    @ExpectedDataSet(value = "datasets/movies_dataset.yml")
+    public void testGetMovies_ReturnCorrectData() throws Exception {
+        mockMvc.perform(get("/api/v1/movies")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].nameRussian").value("Побег из Шоушенка"))
+                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[1].nameRussian").value("Зеленая миля"))
+                .andExpect(jsonPath("$[2].id").value(3))
+                .andExpect(jsonPath("$[2].nameRussian").value("Форрест Гамп"))
+                .andExpect(jsonPath("$[3].id").value(4))
+                .andExpect(jsonPath("$[3].nameRussian").value("Побег из Алькатраза"))
+                .andExpect(jsonPath("$[4].id").value(5))
+                .andExpect(jsonPath("$[4].nameRussian").value("Назад в будущее"));
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetRandomMovies_ReturnAllFieldsInJson() throws Exception {
-        MvcResult result = mockMvc.perform(get("http://localhost:8080/api/v1/movies/random")
+        mockMvc.perform(get("/api/v1/movies/random")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").exists())
@@ -57,17 +69,14 @@ class MovieControllerTest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[*].yearOfRelease").exists())
                 .andExpect(jsonPath("$[*].rating").exists())
                 .andExpect(jsonPath("$[*].price").exists())
-                .andExpect(jsonPath("$[*].picturePath").exists())
-                .andReturn();
-
-        String responseJson = result.getResponse().getContentAsString();
-        log.info("Response JSON: {}", responseJson);
+                .andExpect(jsonPath("$[*].picturePath").exists());
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetRandomMovies_ReturnUniqueMovies() throws Exception {
-        MvcResult result = mockMvc.perform(get("http://localhost:8080/api/v1/movies/random")
+        MvcResult result = mockMvc.perform(get("/api/v1/movies/random")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -87,26 +96,33 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
-    public void testGetMoviesByGenre() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/2")
+    @DataSet(value = "datasets/movies_by_genre_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    public void testGetMoviesByGenreReturnCorrectData() throws Exception {
+        mockMvc.perform(get("/api/v1/movies/genre/3")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].id").value(8))
-                .andExpect(jsonPath("$[*].nameRussian").value("Криминальное чтиво"))
-                .andExpect(jsonPath("$[*].nameNative").value("Pulp Fiction"))
-                .andExpect(jsonPath("$[*].yearOfRelease").value("1994"))
-                .andExpect(jsonPath("$[*].rating").value(8.9))
-                .andExpect(jsonPath("$[*].price").value(155.0))
-                .andExpect(jsonPath("$[*].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/61v%2BGcL1-xL._AC_SY679_.jpg"))
-                .andExpect(jsonPath("$[*].genre.id").value(2))
-                .andExpect(jsonPath("$[*].genre.name").value("криминал"));
+                .andExpect(jsonPath("$[0].id").value(5))
+                .andExpect(jsonPath("$[0].nameRussian").value("Назад в будущее"))
+                .andExpect(jsonPath("$[0].nameNative").value("Back to the Future"))
+                .andExpect(jsonPath("$[0].yearOfRelease").value("1985"))
+                .andExpect(jsonPath("$[0].rating").value(8.5))
+                .andExpect(jsonPath("$[0].price").value(110.0))
+                .andExpect(jsonPath("$[0].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/81c%2BM2w8amL._AC_SY679_.jpg"))
+                .andExpect(jsonPath("$[1].id").value(7))
+                .andExpect(jsonPath("$[1].nameRussian").value("Звёздные войны: Эпизод 4 – Новая надежда"))
+                .andExpect(jsonPath("$[1].nameNative").value("Star Wars: Episode IV - A New Hope"))
+                .andExpect(jsonPath("$[1].yearOfRelease").value("1977"))
+                .andExpect(jsonPath("$[1].rating").value(8.6))
+                .andExpect(jsonPath("$[1].price").value(145.55))
+                .andExpect(jsonPath("$[1].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/81er5FoX-tL._AC_SY679_.jpg"));
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetAllMoviesWithSortingByRatingDesc() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+        mockMvc.perform(get("/api/v1/movies")
                         .param("rating", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -121,9 +137,10 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetAllMoviesWithSortingByRatingAsc() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+        mockMvc.perform(get("/api/v1/movies")
                         .param("rating", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -138,9 +155,10 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetAllMoviesWithSortingByPriceDesc() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+        mockMvc.perform(get("/api/v1/movies")
                         .param("price", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -155,9 +173,10 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetAllMoviesWithSortingByPriceAsc() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies")
+        mockMvc.perform(get("/api/v1/movies")
                         .param("price", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -172,9 +191,10 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_by_genre_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetMoviesByGenreWithSortingByRatingDesc() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
+        mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("rating", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -186,9 +206,10 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_by_genre_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetMoviesByGenreWithSortingByRatingAsc() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
+        mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("rating", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -200,9 +221,10 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_by_genre_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetMoviesByGenreWithSortingByPriceDesc() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
+        mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("price", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -214,9 +236,10 @@ class MovieControllerTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movies_and_genres_dataset.yml")
+    @DataSet(value = "datasets/movies_by_genre_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testGetMoviesByGenreWithSortingByPriceAsc() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/movies/genre/1")
+        mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("price", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

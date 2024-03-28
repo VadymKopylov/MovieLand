@@ -6,7 +6,7 @@ MOVIES:
     RATING: 8.89
     PRICE: 123.45
     PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1._SY209_CR0,0,140,209_.jpg"
-    GENRE_ID: 1
+
   - ID: 2
     NAME_RUSSIAN: "Зеленая миля"
     NAME_NATIVE: "The Green Mile"
@@ -14,7 +14,7 @@ MOVIES:
     RATING: 8.88
     PRICE: 134.67
     PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1._SY209_CR0,0,140,209_.jpg"
-    GENRE_ID: 1
+
   - ID: 3
     NAME_RUSSIAN: "Форрест Гамп"
     NAME_NATIVE: "Forrest Gump"
@@ -22,7 +22,7 @@ MOVIES:
     RATING: 8.8
     PRICE: 99.99
     PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/I/51hxygS7WjL._AC_.jpg"
-    GENRE_ID: 1
+
   - ID: 4
     NAME_RUSSIAN: "Побег из Алькатраза"
     NAME_NATIVE: "Escape from Alcatraz"
@@ -30,7 +30,7 @@ MOVIES:
     RATING: 7.6
     PRICE: 88.88
     PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/I/51x7MxwqPWL._AC_SY679_.jpg"
-    GENRE_ID: 1
+
   - ID: 5
     NAME_RUSSIAN: "Назад в будущее"
     NAME_NATIVE: "Back to the Future"
@@ -38,7 +38,7 @@ MOVIES:
     RATING: 8.5
     PRICE: 110.0
     PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/I/81c%2BM2w8amL._AC_SY679_.jpg"
-    GENRE_ID: 3
+
   - ID: 6
     NAME_RUSSIAN: "Титаник"
     NAME_NATIVE: "Titanic"
@@ -46,7 +46,7 @@ MOVIES:
     RATING: 7.8
     PRICE: 150.0
     PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/I/51zSgtMjtwL._AC_SY679_.jpg"
-    GENRE_ID: 1
+
   - ID: 7
     NAME_RUSSIAN: "Звёздные войны: Эпизод 4 – Новая надежда"
     NAME_NATIVE: "Star Wars: Episode IV - A New Hope"
@@ -54,7 +54,7 @@ MOVIES:
     RATING: 8.6
     PRICE: 145.55
     PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/I/81er5FoX-tL._AC_SY679_.jpg"
-    GENRE_ID: 3
+
   - ID: 8
     NAME_RUSSIAN: "Криминальное чтиво"
     NAME_NATIVE: "Pulp Fiction"
@@ -62,12 +62,43 @@ MOVIES:
     RATING: 8.9
     PRICE: 155.0
     PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/I/61v%2BGcL1-xL._AC_SY679_.jpg"
-    GENRE_ID: 2
+
 
 GENRES:
   - ID: 1
-    NAME: "драма"
+    NAME: 'драма'
+
   - ID: 2
-    NAME: "криминал"
+    NAME: 'криминал'
+
   - ID: 3
-    NAME: "фантастика"
+    NAME: 'фэнтези'
+
+  - ID: 4
+    NAME: 'детектив'
+
+
+MOVIE_GENRE:
+  - MOVIE_ID: 1
+    GENRE_ID: 1
+
+  - MOVIE_ID: 2
+    GENRE_ID: 1
+
+  - MOVIE_ID: 3
+    GENRE_ID: 1
+
+  - MOVIE_ID: 4
+    GENRE_ID: 1
+
+  - MOVIE_ID: 5
+    GENRE_ID: 3
+
+  - MOVIE_ID: 6
+    GENRE_ID: 1
+
+  - MOVIE_ID: 7
+    GENRE_ID: 3
+
+  - MOVIE_ID: 8
+    GENRE_ID: 2
