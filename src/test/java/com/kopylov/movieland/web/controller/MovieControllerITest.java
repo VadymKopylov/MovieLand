@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @DBRider
 @AutoConfigureMockMvc
-@Slf4j
 class MovieControllerITest extends AbstractBaseITest {
 
     @Autowired
@@ -98,7 +97,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetMoviesByGenreReturnCorrectData() throws Exception {
+    public void testGetMoviesByGenre_ReturnCorrectData() throws Exception {
         mockMvc.perform(get("/api/v1/movies/genre/3")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -121,7 +120,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetAllMoviesWithSortingByRatingDesc() throws Exception {
+    public void testGetAllMovies_WithSortingByRatingDesc() throws Exception {
         mockMvc.perform(get("/api/v1/movies")
                         .param("rating", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -139,7 +138,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetAllMoviesWithSortingByRatingAsc() throws Exception {
+    public void testGetAllMovies_WithSortingByRatingAsc() throws Exception {
         mockMvc.perform(get("/api/v1/movies")
                         .param("rating", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -157,7 +156,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetAllMoviesWithSortingByPriceDesc() throws Exception {
+    public void testGetAllMovies_WithSortingByPriceDesc() throws Exception {
         mockMvc.perform(get("/api/v1/movies")
                         .param("price", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -175,7 +174,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetAllMoviesWithSortingByPriceAsc() throws Exception {
+    public void testGetAllMovies_WithSortingByPriceAsc() throws Exception {
         mockMvc.perform(get("/api/v1/movies")
                         .param("price", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -193,7 +192,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetMoviesByGenreWithSortingByRatingDesc() throws Exception {
+    public void testGetMoviesByGenre_WithSortingByRatingDesc() throws Exception {
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("rating", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -208,7 +207,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetMoviesByGenreWithSortingByRatingAsc() throws Exception {
+    public void testGetMoviesByGenre_WithSortingByRatingAsc() throws Exception {
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("rating", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -223,7 +222,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetMoviesByGenreWithSortingByPriceDesc() throws Exception {
+    public void testGetMoviesByGenre_WithSortingByPriceDesc() throws Exception {
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("price", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -238,7 +237,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testGetMoviesByGenreWithSortingByPriceAsc() throws Exception {
+    public void testGetMoviesByGenre_WithSortingByPriceAsc() throws Exception {
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("price", "asc")
                         .contentType(MediaType.APPLICATION_JSON))

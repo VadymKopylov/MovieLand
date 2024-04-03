@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class DefaultGenreServiceTest {
@@ -24,7 +25,7 @@ class DefaultGenreServiceTest {
     private List<Genre> genreCache = new ArrayList<>();
 
     @InjectMocks
-    private DefaultGenreService genreService;
+    private GenreCache cache;
 
     @BeforeEach
     void setUp() {
@@ -38,7 +39,7 @@ class DefaultGenreServiceTest {
         genreCache.add(genre1);
         genreCache.add(genre2);
 
-        List<Genre> genres = genreService.getAll();
+        List<Genre> genres = cache.getAll();
 
         assertEquals(2, genres.size());
         assertEquals("Драма", genres.get(0).getName());
@@ -47,9 +48,23 @@ class DefaultGenreServiceTest {
     }
 
     @Test
-    void testScheduledCacheUpdate() {
-        genreService.scheduledCacheUpdate();
+    void testGetAllCacheEmptyCacheFetchesFromRepository() {
+        Genre genre1 = new Genre(1L, "Драма");
+        Genre genre2 = new Genre(2L, "Фантастика");
+        List<Genre> genresRepo = new ArrayList<>();
+        genresRepo.add(genre1);
+        genresRepo.add(genre2);
 
+        when(genreRepository.findAll()).thenReturn(genresRepo);
+
+        List<Genre> genres = cache.getAll();
+
+        assertEquals(2, genres.size());
         verify(genreRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetAllReturnsUnmodifiableList() {
+        assertThrows(UnsupportedOperationException.class, () -> cache.getAll().add(new Genre(1L, "Test")));
     }
 }
