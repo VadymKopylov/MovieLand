@@ -4,7 +4,6 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import com.kopylov.movieland.AbstractBaseITest;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -247,5 +246,36 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[2].id").value(1))
                 .andExpect(jsonPath("$[3].id").value(2))
                 .andExpect(jsonPath("$[4].id").value(6));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movie_by_id_dataset.yml",
+            cleanAfter = true, cleanBefore = true)
+    public void testGetByIdMovie_ReturnCorrectJson() throws Exception {
+        mockMvc.perform(get("/api/v1/movie/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.nameRussian").value("Побег из Шоушенка"))
+                .andExpect(jsonPath("$.nameNative").value("The Shawshank Redemption"))
+                .andExpect(jsonPath("$.yearOfRelease").value("1994"))
+                .andExpect(jsonPath("$.description").value("Успешный банкир Энди Дюфрейн обвинен в убийстве собственной жены и ее любовника."))
+                .andExpect(jsonPath("$.rating").value(8.89))
+                .andExpect(jsonPath("$.price").value(123.45))
+                .andExpect(jsonPath("$.picturePath").value("https://images-na.ssl-images-amazon.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1._SY209_CR0,0,140,209_.jpg"))
+                .andExpect(jsonPath("$.genres[0].id").value(1))
+                .andExpect(jsonPath("$.genres[0].name").value("драма"))
+                .andExpect(jsonPath("$.genres[1].id").value(2))
+                .andExpect(jsonPath("$.genres[1].name").value("криминал"))
+                .andExpect(jsonPath("$.countries[0].id").value(1))
+                .andExpect(jsonPath("$.countries[0].name").value("США"))
+                .andExpect(jsonPath("$.reviews[0].id").value(1))
+                .andExpect(jsonPath("$.reviews[0].user.id").value(3))
+                .andExpect(jsonPath("$.reviews[0].user.nickname").value("Дарлин Эдвардс"))
+                .andExpect(jsonPath("$.reviews[0].text").value("Гениальное кино!"))
+                .andExpect(jsonPath("$.reviews[1].id").value(2))
+                .andExpect(jsonPath("$.reviews[1].user.id").value(4))
+                .andExpect(jsonPath("$.reviews[1].user.nickname").value("Габриэль Джексон"))
+                .andExpect(jsonPath("$.reviews[1].text").value("Очень хороший фильм!"));
     }
 }

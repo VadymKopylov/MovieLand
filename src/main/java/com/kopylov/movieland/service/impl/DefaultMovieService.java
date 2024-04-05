@@ -30,8 +30,13 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public List<Movie> getByGenre(Long genreId, Optional<String> rating, Optional<String> price) {
-        List<Movie> moviesByGenre = movieRepository.findByGenreId(genreId);
+        List<Movie> moviesByGenre = movieRepository.findByGenresId(genreId);
         return sortedByCriteria(moviesByGenre, rating, price);
+    }
+
+    @Override
+    public Movie getById(long movieId) {
+        return movieRepository.findById(movieId).get();
     }
 
     private List<Movie> sortedByCriteria(List<Movie> movies, Optional<String> rating, Optional<String> price) {

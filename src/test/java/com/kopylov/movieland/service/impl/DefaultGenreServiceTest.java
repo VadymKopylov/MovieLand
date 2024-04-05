@@ -34,8 +34,8 @@ class DefaultGenreServiceTest {
 
     @Test
     void testGetAllCacheReturnDataFromCache() {
-        Genre genre1 = new Genre(1L, "Драма");
-        Genre genre2 = new Genre(2L, "Фантастика");
+        Genre genre1 = new Genre(1, "Драма");
+        Genre genre2 = new Genre(2, "Фантастика");
         genreCache.add(genre1);
         genreCache.add(genre2);
 
@@ -49,8 +49,8 @@ class DefaultGenreServiceTest {
 
     @Test
     void testGetAllCacheEmptyCacheFetchesFromRepository() {
-        Genre genre1 = new Genre(1L, "Драма");
-        Genre genre2 = new Genre(2L, "Фантастика");
+        Genre genre1 = new Genre(1, "Драма");
+        Genre genre2 = new Genre(2, "Фантастика");
         List<Genre> genresRepo = new ArrayList<>();
         genresRepo.add(genre1);
         genresRepo.add(genre2);
@@ -65,6 +65,6 @@ class DefaultGenreServiceTest {
 
     @Test
     void testGetAllReturnsUnmodifiableList() {
-        assertThrows(UnsupportedOperationException.class, () -> cache.getAll().add(new Genre(1L, "Test")));
+        assertThrows(UnsupportedOperationException.class, () -> cache.getAll().add(new Genre(1, "Test")));
     }
 }
