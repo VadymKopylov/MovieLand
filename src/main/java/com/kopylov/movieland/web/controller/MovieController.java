@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class MovieController {
 
     private final MovieService movieService;
-    private final ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping(path = "/movies")
     public List<Movie> getAllMovies(@RequestParam(name = "rating", required = false) Optional<String> ratingSortOrder,
@@ -42,24 +41,7 @@ public class MovieController {
     }
 
     @GetMapping(path = "/movie/{id}")
-    public ResponseEntity<MovieDto> getById(@PathVariable(value = "id") long movieId) {
-        Movie movie = movieService.getById(movieId);
-        if (movie == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        MovieDto movieDto = modelMapper.map(movie, MovieDto.class);
-
-        List<ReviewDto> reviewDtos = movie.getReviews().stream()
-                .map(review -> {
-                    ReviewDto reviewDto = modelMapper.map(review, ReviewDto.class);
-                    UserDto userDto = modelMapper.map(review.getUser(), UserDto.class);
-                    reviewDto.setUser(userDto);
-                    return reviewDto;
-                })
-                .collect(Collectors.toList());
-        movieDto.setReviews(reviewDtos);
-
-        return ResponseEntity.ok(movieDto);
+    public MovieDto getById(@PathVariable(value = "id") long movieId) {
+        return movieService.getById(movieId);
     }
 }

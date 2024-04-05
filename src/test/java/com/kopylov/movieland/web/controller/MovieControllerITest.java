@@ -278,4 +278,12 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$.reviews[1].user.nickname").value("Габриэль Джексон"))
                 .andExpect(jsonPath("$.reviews[1].text").value("Очень хороший фильм!"));
     }
+
+    @Test
+    @DataSet(value = "datasets/movie_by_id_dataset.yml")
+    void testGetByIdMovie_ThrowExceptionWhenNoFoundMovieById() throws Exception {
+        mockMvc.perform(get("/api/v1/movie/10")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }
