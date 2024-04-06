@@ -3,9 +3,11 @@ package com.kopylov.movieland.service.impl;
 import com.kopylov.movieland.dto.MovieDto;
 import com.kopylov.movieland.dto.ReviewDto;
 import com.kopylov.movieland.dto.UserDto;
+import com.kopylov.movieland.entity.CurrencyType;
 import com.kopylov.movieland.entity.Movie;
 import com.kopylov.movieland.exception.NotFoundException;
 import com.kopylov.movieland.repository.MovieRepository;
+import com.kopylov.movieland.service.CurrencyService;
 import com.kopylov.movieland.service.MovieService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,32 +23,38 @@ import java.util.stream.Collectors;
 public class DefaultMovieService implements MovieService {
 
     private final MovieRepository movieRepository;
+    private final CurrencyService currencyService;
     private final ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public List<Movie> getAll(Optional<String> rating, Optional<String> price) {
+    public List<Movie> findAll(Optional<String> rating, Optional<String> price) {
         List<Movie> allMovies = movieRepository.findAll();
         return sortedByCriteria(allMovies, rating, price);
     }
 
     @Override
-    public List<Movie> getRandomMovie() {
+    public List<Movie> findRandom() {
         return movieRepository.findRandomMovies(3);
     }
 
     @Override
-    public List<Movie> getByGenre(Long genreId, Optional<String> rating, Optional<String> price) {
+    public List<Movie> findByGenre(Long genreId, Optional<String> rating, Optional<String> price) {
         List<Movie> moviesByGenre = movieRepository.findByGenresId(genreId);
         return sortedByCriteria(moviesByGenre, rating, price);
     }
 
     @Override
-    public MovieDto getById(long movieId) {
+    public MovieDto findById(long movieId, CurrencyType currencyType) {
         Optional<Movie> movie = movieRepository.findById(movieId);
         if (movie.isEmpty()) {
-            throw new NotFoundException("Not found movie by id" + movieId);
+            throw new NotFoundException("Not found movie by id " + movieId);
         }
         MovieDto movieDto = modelMapper.map(movie, MovieDto.class);
+
+        if (currencyType != null) {
+            double convertedPrice = currencyService.convertPrice(movieDto.getPrice(), currencyType);
+            movieDto.setPrice(convertedPrice);
+        }
 
         List<ReviewDto> reviewDtos = movie.get().getReviews().stream()
                 .map(review -> {

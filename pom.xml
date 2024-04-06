@@ -17,6 +17,8 @@
         <org.slf4j.version>2.0.12</org.slf4j.version>
         <org.testcontainers.version>1.19.7</org.testcontainers.version>
         <com.github.database-rider.version>1.42.0</com.github.database-rider.version>
+        <spring-webflux.version>6.1.5</spring-webflux.version>
+        <modelmapper.version>3.2.0</modelmapper.version>
     </properties>
 
     <dependencies>
@@ -39,7 +41,13 @@
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>3.2.0</version>
+            <version>${modelmapper.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+            <version>${spring-webflux.version}</version>
         </dependency>
 
         <dependency>
