@@ -3,12 +3,12 @@ package com.kopylov.movieland.web.controller;
 import com.kopylov.movieland.dto.MovieDto;
 import com.kopylov.movieland.entity.CurrencyType;
 import com.kopylov.movieland.entity.Movie;
+import com.kopylov.movieland.entity.SortOrder;
 import com.kopylov.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/movies")
@@ -18,8 +18,8 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping
-    public List<Movie> getAllMovies(@RequestParam(name = "rating", required = false) Optional<String> ratingSortOrder,
-                                    @RequestParam(name = "price", required = false) Optional<String> priceSortOrder) {
+    public List<Movie> getAllMovies(@RequestParam(name = "rating", required = false) SortOrder ratingSortOrder,
+                                    @RequestParam(name = "price", required = false) SortOrder priceSortOrder) {
         return movieService.findAll(ratingSortOrder, priceSortOrder);
     }
 
@@ -30,14 +30,14 @@ public class MovieController {
 
     @GetMapping("/genre/{genreId}")
     public List<Movie> getMoviesByGenre(@PathVariable Long genreId,
-                                        @RequestParam(name = "rating", required = false) Optional<String> ratingSortOrder,
-                                        @RequestParam(name = "price", required = false) Optional<String> priceSortOrder) {
+                                        @RequestParam(name = "rating", required = false) SortOrder ratingSortOrder,
+                                        @RequestParam(name = "price", required = false) SortOrder priceSortOrder) {
         return movieService.findByGenre(genreId, ratingSortOrder, priceSortOrder);
     }
 
     @GetMapping(path = "/{id}")
     public MovieDto getById(@PathVariable(value = "id") long movieId,
                             @RequestParam(value = "currency", required = false) CurrencyType currencyType) {
-        return movieService.findById(movieId,currencyType);
+        return movieService.findById(movieId, currencyType);
     }
 }

@@ -5,6 +5,7 @@ import com.kopylov.movieland.dto.ReviewDto;
 import com.kopylov.movieland.dto.UserDto;
 import com.kopylov.movieland.entity.CurrencyType;
 import com.kopylov.movieland.entity.Movie;
+import com.kopylov.movieland.entity.SortOrder;
 import com.kopylov.movieland.exception.NotFoundException;
 import com.kopylov.movieland.repository.MovieRepository;
 import com.kopylov.movieland.service.CurrencyService;
@@ -13,7 +14,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,9 +27,8 @@ public class DefaultMovieService implements MovieService {
     private final ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public List<Movie> findAll(Optional<String> rating, Optional<String> price) {
-        List<Movie> allMovies = movieRepository.findAll();
-        return sortedByCriteria(allMovies, rating, price);
+    public List<Movie> findAll(SortOrder ratingSortOrder, SortOrder priceSortOrder) {
+        return movieRepository.findAllSorted(ratingSortOrder, priceSortOrder);
     }
 
     @Override
@@ -38,9 +37,8 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public List<Movie> findByGenre(Long genreId, Optional<String> rating, Optional<String> price) {
-        List<Movie> moviesByGenre = movieRepository.findByGenresId(genreId);
-        return sortedByCriteria(moviesByGenre, rating, price);
+    public List<Movie> findByGenre(Long genreId, SortOrder ratingSortOrder, SortOrder priceSortOrder) {
+        return movieRepository.findByGenreIdSorted(genreId, ratingSortOrder, priceSortOrder);
     }
 
     @Override
@@ -66,26 +64,5 @@ public class DefaultMovieService implements MovieService {
                 .collect(Collectors.toList());
         movieDto.setReviews(reviewDtos);
         return movieDto;
-    }
-
-    private List<Movie> sortedByCriteria(List<Movie> movies, Optional<String> rating, Optional<String> price) {
-        Comparator<Movie> comparator = getMovieComparator(rating, price);
-        return movies.stream()
-                .sorted(comparator)
-                .collect(Collectors.toList());
-    }
-
-    private Comparator<Movie> getMovieComparator(Optional<String> rating, Optional<String> price) {
-        Comparator<Movie> comparator = Comparator.comparing(Movie::getId);
-
-        if (rating.isPresent()) {
-            comparator = rating.get().equalsIgnoreCase("asc") ? Comparator.comparing(Movie::getRating)
-                    : Comparator.comparing(Movie::getRating).reversed();
-        } else if (price.isPresent()) {
-            comparator = price.get().equalsIgnoreCase("asc") ? Comparator.comparing(Movie::getPrice)
-                    : Comparator.comparing(Movie::getPrice).reversed();
-        }
-
-        return comparator;
     }
 }
