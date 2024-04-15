@@ -2,6 +2,7 @@ package com.kopylov.movieland.service.impl;
 
 import com.kopylov.movieland.entity.CurrencyType;
 import com.kopylov.movieland.service.CurrencyService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -9,10 +10,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Service
-public class DefaultCurrencyService implements CurrencyService {
+@RequiredArgsConstructor
+public class NbuCurrencyService implements CurrencyService {
 
-    private static final String NBU_URI = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange";
-    private final WebClient nbuClient = WebClient.create(NBU_URI);
+    private final WebClient nbuClient;
 
     @Override
     public double convertPrice(double price, CurrencyType currencyType) {
@@ -21,10 +22,6 @@ public class DefaultCurrencyService implements CurrencyService {
         }
 
         Double exchangeRate = getExchangeRate(currencyType);
-
-        if (exchangeRate == null) {
-            throw new IllegalStateException("Exchange rate is null");
-        }
 
         return convert(price, exchangeRate);
     }
@@ -36,12 +33,9 @@ public class DefaultCurrencyService implements CurrencyService {
                 .bodyToMono(String.class)
                 .block();
 
-        if (response != null) {
-            String rateString = response.split("\"rate\":")[1].split(",")[0];
-            return Double.parseDouble(rateString);
-        } else {
-            return null;
-        }
+        String rateString = response.split("\"rate\":")[1].split(",")[0];
+        return Double.parseDouble(rateString);
+
     }
 
     private double convert(double moviePrice, double rate) {

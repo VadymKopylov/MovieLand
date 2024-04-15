@@ -9,3 +9,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+
+nbu:
+  uri: "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange"

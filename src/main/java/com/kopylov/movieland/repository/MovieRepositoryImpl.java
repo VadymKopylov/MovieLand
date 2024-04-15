@@ -8,17 +8,17 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class MovieRepositoryImpl implements MovieRepositoryCustom {
 
-    @Autowired
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public List<Movie> findAllSorted(SortOrder rating, SortOrder price) {
@@ -47,17 +47,24 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom {
 
         List<Order> orders = new ArrayList<>();
 
-        if (rating.getValue().equalsIgnoreCase("asc")) {
-            orders.add(criteriaBuilder.asc(root.get("rating")));
-        } else if (rating.getValue().equalsIgnoreCase("desc")) {
-            orders.add(criteriaBuilder.desc(root.get("rating")));
+        if (rating != null && rating.getValue() != null) {
+            if (rating.getValue().equalsIgnoreCase("asc")) {
+                orders.add(criteriaBuilder.asc(root.get("rating")));
+            } else if (rating.getValue().equalsIgnoreCase("desc")) {
+                orders.add(criteriaBuilder.desc(root.get("rating")));
+            }
         }
 
+        if (price != null && price.getValue() != null) {
+            if (price.getValue().equalsIgnoreCase("asc")) {
+                orders.add(criteriaBuilder.asc(root.get("price")));
+            } else if (price.getValue().equalsIgnoreCase("desc")) {
+                orders.add(criteriaBuilder.desc(root.get("price")));
+            }
+        }
 
-        if (price.getValue().equalsIgnoreCase("asc")) {
-            orders.add(criteriaBuilder.asc(root.get("price")));
-        } else if (price.getValue().equalsIgnoreCase("desc")) {
-            orders.add(criteriaBuilder.desc(root.get("price")));
+        if (orders.isEmpty()) {
+            orders.add(criteriaBuilder.asc(root.get("id")));
         }
 
         criteriaQuery.orderBy(orders);

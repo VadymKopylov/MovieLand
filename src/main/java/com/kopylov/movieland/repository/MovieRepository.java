@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long>,MovieRepositoryCustom {
+public interface MovieRepository extends JpaRepository<Movie, Long>, MovieRepositoryCustom {
+
     @Query(value = "SELECT * FROM movies ORDER BY RANDOM() LIMIT ?1", nativeQuery = true)
     List<Movie> findRandomMovies(int limit);
 }
