@@ -1,8 +1,5 @@
 package com.kopylov.movieland.service.impl;
 
-import com.kopylov.movieland.dto.MovieDto;
-import com.kopylov.movieland.dto.ReviewDto;
-import com.kopylov.movieland.dto.UserDto;
 import com.kopylov.movieland.entity.CurrencyType;
 import com.kopylov.movieland.entity.Movie;
 import com.kopylov.movieland.entity.SortOrder;
@@ -11,12 +8,10 @@ import com.kopylov.movieland.repository.MovieRepository;
 import com.kopylov.movieland.service.CurrencyService;
 import com.kopylov.movieland.service.MovieService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +19,6 @@ public class DefaultMovieService implements MovieService {
 
     private final MovieRepository movieRepository;
     private final CurrencyService currencyService;
-    private final ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public List<Movie> findAll(SortOrder ratingSortOrder, SortOrder priceSortOrder) {
@@ -38,31 +32,27 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public List<Movie> findByGenre(Long genreId, SortOrder ratingSortOrder, SortOrder priceSortOrder) {
-        return movieRepository.findByGenreIdSorted(genreId, ratingSortOrder, priceSortOrder);
+        List<Movie> byGenreIdSorted = movieRepository.findByGenreIdSorted(genreId, ratingSortOrder, priceSortOrder);
+        if (byGenreIdSorted.isEmpty()) {
+            throw new NotFoundException("Not found movies by genre");
+        }
+        return byGenreIdSorted;
     }
 
     @Override
-    public MovieDto findById(long movieId, CurrencyType currencyType) {
+    public Movie findById(long movieId, CurrencyType currencyType) {
         Optional<Movie> movie = movieRepository.findById(movieId);
+
         if (movie.isEmpty()) {
             throw new NotFoundException("Not found movie by id " + movieId);
         }
-        MovieDto movieDto = modelMapper.map(movie, MovieDto.class);
+
+        Movie movieFromDb = movie.get();
 
         if (currencyType != null) {
-            double convertedPrice = currencyService.convertPrice(movieDto.getPrice(), currencyType);
-            movieDto.setPrice(convertedPrice);
+            double convertedPrice = currencyService.convertPrice(movieFromDb.getPrice(), currencyType);
+            movieFromDb.setPrice(convertedPrice);
         }
-
-        List<ReviewDto> reviewDtos = movie.get().getReviews().stream()
-                .map(review -> {
-                    ReviewDto reviewDto = modelMapper.map(review, ReviewDto.class);
-                    UserDto userDto = modelMapper.map(review.getUser(), UserDto.class);
-                    reviewDto.setUser(userDto);
-                    return reviewDto;
-                })
-                .collect(Collectors.toList());
-        movieDto.setReviews(reviewDtos);
-        return movieDto;
+        return movieFromDb;
     }
 }

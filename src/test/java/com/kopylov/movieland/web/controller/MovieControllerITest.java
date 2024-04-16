@@ -5,8 +5,12 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import com.kopylov.movieland.AbstractBaseITest;
 import com.kopylov.movieland.entity.CurrencyType;
+import com.kopylov.movieland.entity.Movie;
 import com.kopylov.movieland.service.CurrencyService;
+import com.kopylov.movieland.service.MovieService;
+import io.hypersistence.utils.jdbc.validator.SQLStatementCountValidator;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static io.hypersistence.utils.jdbc.validator.SQLStatementCountValidator.assertSelectCount;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -37,6 +42,9 @@ class MovieControllerITest extends AbstractBaseITest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Mock
+    private MovieService movieService;
 
     @MockBean
     private CurrencyService currencyService;
@@ -59,6 +67,9 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[3].nameRussian").value("Побег из Алькатраза"))
                 .andExpect(jsonPath("$[4].id").value(5))
                 .andExpect(jsonPath("$[4].nameRussian").value("Назад в будущее"));
+
+        List<Movie> movies = movieService.findAll(null, null);
+        assertSelectCount(movies.size() + 1);
     }
 
     @Test
@@ -98,29 +109,6 @@ class MovieControllerITest extends AbstractBaseITest {
 
         assertThat(movieIds, hasSize(3));
         assertThat(movieIds, hasSize(equalTo(new HashSet<>(movieIds).size())));
-    }
-
-    @Test
-    @DataSet(value = "datasets/movies_by_genre_dataset.yml",
-            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    public void testFindMoviesByGenre_ReturnCorrectData() throws Exception {
-        mockMvc.perform(get("/api/v1/movies/genre/3")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(5))
-                .andExpect(jsonPath("$[0].nameRussian").value("Назад в будущее"))
-                .andExpect(jsonPath("$[0].nameNative").value("Back to the Future"))
-                .andExpect(jsonPath("$[0].yearOfRelease").value("1985"))
-                .andExpect(jsonPath("$[0].rating").value(8.5))
-                .andExpect(jsonPath("$[0].price").value(110.0))
-                .andExpect(jsonPath("$[0].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/81c%2BM2w8amL._AC_SY679_.jpg"))
-                .andExpect(jsonPath("$[1].id").value(7))
-                .andExpect(jsonPath("$[1].nameRussian").value("Звёздные войны: Эпизод 4 – Новая надежда"))
-                .andExpect(jsonPath("$[1].nameNative").value("Star Wars: Episode IV - A New Hope"))
-                .andExpect(jsonPath("$[1].yearOfRelease").value("1977"))
-                .andExpect(jsonPath("$[1].rating").value(8.6))
-                .andExpect(jsonPath("$[1].price").value(145.55))
-                .andExpect(jsonPath("$[1].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/81er5FoX-tL._AC_SY679_.jpg"));
     }
 
     @Test
@@ -198,6 +186,29 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    public void testFindMoviesByGenre_ReturnCorrectData() throws Exception {
+        mockMvc.perform(get("/api/v1/movies/genre/3")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(5))
+                .andExpect(jsonPath("$[0].nameRussian").value("Назад в будущее"))
+                .andExpect(jsonPath("$[0].nameNative").value("Back to the Future"))
+                .andExpect(jsonPath("$[0].yearOfRelease").value("1985"))
+                .andExpect(jsonPath("$[0].rating").value(8.5))
+                .andExpect(jsonPath("$[0].price").value(110.0))
+                .andExpect(jsonPath("$[0].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/81c%2BM2w8amL._AC_SY679_.jpg"))
+                .andExpect(jsonPath("$[1].id").value(7))
+                .andExpect(jsonPath("$[1].nameRussian").value("Звёздные войны: Эпизод 4 – Новая надежда"))
+                .andExpect(jsonPath("$[1].nameNative").value("Star Wars: Episode IV - A New Hope"))
+                .andExpect(jsonPath("$[1].yearOfRelease").value("1977"))
+                .andExpect(jsonPath("$[1].rating").value(8.6))
+                .andExpect(jsonPath("$[1].price").value(145.55))
+                .andExpect(jsonPath("$[1].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/81er5FoX-tL._AC_SY679_.jpg"));
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies_by_genre_dataset.yml",
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindMoviesByGenre_WithSortingByRatingDesc() throws Exception {
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("rating", "desc")
@@ -244,6 +255,8 @@ class MovieControllerITest extends AbstractBaseITest {
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindMoviesByGenre_WithSortingByPriceAsc() throws Exception {
+        SQLStatementCountValidator.reset();
+
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("price", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -253,12 +266,24 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[2].id").value(1))
                 .andExpect(jsonPath("$[3].id").value(2))
                 .andExpect(jsonPath("$[4].id").value(6));
+
+        assertSelectCount(16);// ?? wtf
+    }
+
+    @Test
+    @DataSet(value = "datasets/movies_by_genre_dataset.yml")
+    void testFindMoviesByGenre_ThrowExceptionWhenNoMoviesFound() throws Exception {
+        mockMvc.perform(get("/api/v1/movies/genre/5")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
     @DataSet(value = "datasets/movie_by_id_dataset.yml",
             cleanAfter = true, cleanBefore = true)
     public void testFindByIdMovie_ReturnCorrectJson() throws Exception {
+        SQLStatementCountValidator.reset();
+
         mockMvc.perform(get("/api/v1/movies/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -284,6 +309,8 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$.reviews[1].user.id").value(4))
                 .andExpect(jsonPath("$.reviews[1].user.nickname").value("Габриэль Джексон"))
                 .andExpect(jsonPath("$.reviews[1].text").value("Очень хороший фильм!"));
+
+        assertSelectCount(6);
     }
 
     @Test
@@ -298,6 +325,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @DataSet(value = "datasets/movie_by_id_dataset.yml",
             cleanAfter = true, cleanBefore = true)
     public void testFindByIdMovie_WithCurrencyUSDConvertPrice() throws Exception {
+        SQLStatementCountValidator.reset();
 
         when(currencyService.convertPrice(123.45, CurrencyType.USD)).thenReturn(24.4);
 
@@ -308,5 +336,7 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.nameNative").value("The Shawshank Redemption"))
                 .andExpect(jsonPath("$.price").value(24.4));
+
+        assertSelectCount(6);
     }
 }

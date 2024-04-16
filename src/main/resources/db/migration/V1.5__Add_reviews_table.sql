@@ -4,8 +4,8 @@ CREATE TABLE reviews (
 );
 
 CREATE TABLE users(
-                      "id" INTEGER PRIMARY KEY,
-                      "nickname" VARCHAR(45) NOT NULL
+            "id" INTEGER PRIMARY KEY,
+            "nickname" VARCHAR(45) NOT NULL
 );
 
 ALTER TABLE reviews ADD COLUMN "movie_id" INTEGER;
