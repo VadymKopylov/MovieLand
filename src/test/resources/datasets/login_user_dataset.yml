@@ -1,0 +1,9 @@
+USERS:
+ - ID: 1
+   USERNAME: "user"
+   EMAIL: "user@gmail.com"
+   PASSWORD: "$2a$10$JKAH4Py4IkWR9BNep3c4neUyRgDt8RRO8hsbFlUY93ZTMyu36iQQy"
+
+ROLES:
+ - ID: 1
+   NAME: "USER"

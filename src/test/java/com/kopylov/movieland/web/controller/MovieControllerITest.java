@@ -303,11 +303,11 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$.countries[0].name").value("США"))
                 .andExpect(jsonPath("$.reviews[0].id").value(1))
                 .andExpect(jsonPath("$.reviews[0].user.id").value(3))
-                .andExpect(jsonPath("$.reviews[0].user.nickname").value("Дарлин Эдвардс"))
+                .andExpect(jsonPath("$.reviews[0].user.username").value("Дарлин Эдвардс"))
                 .andExpect(jsonPath("$.reviews[0].text").value("Гениальное кино!"))
                 .andExpect(jsonPath("$.reviews[1].id").value(2))
                 .andExpect(jsonPath("$.reviews[1].user.id").value(4))
-                .andExpect(jsonPath("$.reviews[1].user.nickname").value("Габриэль Джексон"))
+                .andExpect(jsonPath("$.reviews[1].user.username").value("Габриэль Джексон"))
                 .andExpect(jsonPath("$.reviews[1].text").value("Очень хороший фильм!"));
 
         assertSelectCount(6);

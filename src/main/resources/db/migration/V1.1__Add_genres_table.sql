@@ -1,4 +1,5 @@
-CREATE TABLE genres (
-             id SERIAL PRIMARY KEY,
-             name VARCHAR(100) UNIQUE
+CREATE TABLE genres
+(
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE
 );

@@ -12,3 +12,7 @@ spring:
 
 nbu:
   uri: "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange"
+
+jwt:
+  secret: pmY2/hR0fhncZdrNvMzJACwWT4dgFLAXRINOPvGcSuw5c+Vt8Hxax70H6/IUFXOl
+  lifetime: 7 200 000
