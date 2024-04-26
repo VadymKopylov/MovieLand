@@ -50,7 +50,7 @@ public class DefaultMovieService implements MovieService {
         Movie movieFromDb = movie.get();
 
         if (currencyType != null) {
-            double convertedPrice = currencyService.convertPrice(movieFromDb.getPrice(), currencyType);
+            double convertedPrice = currencyService.convertFromUah(movieFromDb.getPrice(), currencyType);
             movieFromDb.setPrice(convertedPrice);
         }
         return movieFromDb;

@@ -3,5 +3,9 @@ package com.kopylov.movieland.service;
 import com.kopylov.movieland.entity.CurrencyType;
 
 public interface CurrencyService {
-    double convertPrice(double price, CurrencyType currencyType);
+
+    default double convertFromUah(double price, CurrencyType toCurrency) {
+        return convert(price, toCurrency);
+    }
+    double convert(double price, CurrencyType currencyType);
 }

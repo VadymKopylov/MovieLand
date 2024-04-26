@@ -17,6 +17,7 @@ import java.util.List;
 public class Movie {
 
     @Id
+    @Column(name = "id")
     private int id;
 
     @Column(name = "name_russian")
@@ -28,16 +29,19 @@ public class Movie {
     @Column(name = "year_of_release")
     private String yearOfRelease;
 
+    @Column(name = "description")
     private String description;
 
+    @Column(name = "rating")
     private double rating;
 
+    @Column(name = "price")
     private double price;
 
     @Column(name = "picture_path")
     private String picturePath;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "movie_country",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -45,7 +49,7 @@ public class Movie {
     )
     private List<Country> countries;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -53,6 +57,6 @@ public class Movie {
     )
     private List<Genre> genres;
 
-    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie")
     private List<Review> reviews;
 }

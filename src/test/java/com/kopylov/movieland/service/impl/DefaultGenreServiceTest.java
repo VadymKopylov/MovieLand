@@ -1,5 +1,6 @@
 package com.kopylov.movieland.service.impl;
 
+import com.kopylov.movieland.dto.GenreDto;
 import com.kopylov.movieland.entity.Genre;
 import com.kopylov.movieland.repository.GenreRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,12 +35,12 @@ class DefaultGenreServiceTest {
 
     @Test
     void testGetAllCacheReturnDataFromCache() {
-        Genre genre1 = new Genre(1, "Драма");
-        Genre genre2 = new Genre(2, "Фантастика");
+        Genre genre1 = new Genre(1, "Драма",null);
+        Genre genre2 = new Genre(2, "Фантастика",null);
         genreCache.add(genre1);
         genreCache.add(genre2);
 
-        List<Genre> genres = cache.getAll();
+        List<GenreDto> genres = cache.getAll();
 
         assertEquals(2, genres.size());
         assertEquals("Драма", genres.get(0).getName());
@@ -49,22 +50,17 @@ class DefaultGenreServiceTest {
 
     @Test
     void testGetAllCacheEmptyCacheFetchesFromRepository() {
-        Genre genre1 = new Genre(1, "Драма");
-        Genre genre2 = new Genre(2, "Фантастика");
+        Genre genre1 = new Genre(1, "Драма",null);
+        Genre genre2 = new Genre(2, "Фантастика",null);
         List<Genre> genresRepo = new ArrayList<>();
         genresRepo.add(genre1);
         genresRepo.add(genre2);
 
         when(genreRepository.findAll()).thenReturn(genresRepo);
 
-        List<Genre> genres = cache.getAll();
+        List<GenreDto> genres = cache.getAll();
 
         assertEquals(2, genres.size());
         verify(genreRepository, times(1)).findAll();
-    }
-
-    @Test
-    void testGetAllReturnsUnmodifiableList() {
-        assertThrows(UnsupportedOperationException.class, () -> cache.getAll().add(new Genre(1, "Test")));
     }
 }

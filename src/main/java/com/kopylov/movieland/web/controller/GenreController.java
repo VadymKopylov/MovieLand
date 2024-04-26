@@ -1,6 +1,6 @@
 package com.kopylov.movieland.web.controller;
 
-import com.kopylov.movieland.entity.Genre;
+import com.kopylov.movieland.dto.GenreDto;
 import com.kopylov.movieland.service.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class GenreController {
     private final GenreService genreService;
 
     @GetMapping
-    public List<Genre> getAllGenres() {
+    public List<GenreDto> getAllGenres() {
         return genreService.getAll();
     }
 }

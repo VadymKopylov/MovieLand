@@ -1,7 +1,8 @@
 package com.kopylov.movieland.web.controller;
 
-import com.kopylov.movieland.service.security.impl.AuthService;
-import com.kopylov.movieland.web.controller.dto.JwtRequestResponseDto;
+import com.kopylov.movieland.web.controller.request.AuthRequest;
+import com.kopylov.movieland.web.controller.response.AuthResponse;
+import com.kopylov.movieland.web.controller.security.impl.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +18,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtRequestResponseDto> login(@RequestBody JwtRequestResponseDto loginRequest) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest loginRequest) {
         return ResponseEntity.ok(authService.signIn(loginRequest));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<JwtRequestResponseDto> signup(@RequestBody JwtRequestResponseDto loginRequest) {
+    public ResponseEntity<AuthResponse> signup(@RequestBody AuthRequest loginRequest) {
         return ResponseEntity.ok(authService.signUp(loginRequest));
     }
 }

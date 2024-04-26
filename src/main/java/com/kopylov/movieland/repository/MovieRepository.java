@@ -1,6 +1,8 @@
 package com.kopylov.movieland.repository;
 
 import com.kopylov.movieland.entity.Movie;
+import com.kopylov.movieland.entity.SortOrder;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,4 +14,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, MovieReposi
 
     @Query(value = "SELECT * FROM movies ORDER BY RANDOM() LIMIT ?1", nativeQuery = true)
     List<Movie> findRandomMovies(int limit);
+
 }

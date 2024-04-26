@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @DBRider
 @AutoConfigureMockMvc
-class GenreControllerTest extends AbstractBaseITest {
+class GenreControllerITest extends AbstractBaseITest {
 
     @Autowired
     private MockMvc mockMvc;

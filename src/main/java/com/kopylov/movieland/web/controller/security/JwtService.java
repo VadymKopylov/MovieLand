@@ -1,14 +1,15 @@
-package com.kopylov.movieland.service.security;
+package com.kopylov.movieland.web.controller.security;
 
+import com.kopylov.movieland.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashMap;
 
 public interface JwtService {
 
-    String generateToken(UserDetails userDetails);
+    String AUTH_SCHEME = "Bearer ";
 
-    String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails);
+    String generateToken(UserDetails userDetails);
 
     String extractUserName(String token);
 

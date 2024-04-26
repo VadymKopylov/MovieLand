@@ -9,10 +9,19 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-
+    open-in-view: false
 nbu:
   uri: "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange"
+  currency:
+    invalidate: "0 0 3 * * *"
 
 jwt:
   secret: pmY2/hR0fhncZdrNvMzJACwWT4dgFLAXRINOPvGcSuw5c+Vt8Hxax70H6/IUFXOl
-  lifetime: 7 200 000
+  lifetime: 7200000
+
+scheduled:
+  initialDelay:
+    hours: 4
+
+  fixedDelay:
+    hours: 4

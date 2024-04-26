@@ -1,6 +1,6 @@
-package com.kopylov.movieland.service.security.impl;
+package com.kopylov.movieland.web.controller.security.impl;
 
-import com.kopylov.movieland.service.security.JwtService;
+import com.kopylov.movieland.web.controller.security.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -10,9 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.function.Function;
 
 @Service
@@ -22,25 +20,14 @@ public class DefaultJwtService implements JwtService {
     private String secret;
 
     @Value("${jwt.lifetime}")
-    private Long lifetime;
+    private int lifetime;
 
     public String generateToken(UserDetails userDetails) {
         String login = userDetails.getUsername();
         return Jwts.builder()
                 .subject(login)
-                .issuedAt(Date.from(Instant.ofEpochMilli(System.currentTimeMillis())))
-                .expiration(Date.from(Instant.ofEpochMilli(System.currentTimeMillis() + lifetime)))
-                .signWith(getSignInKey())
-                .compact();
-    }
-
-    public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails) {
-        String login = userDetails.getUsername();
-        return Jwts.builder()
-                .claims(claims)
-                .subject(login)
-                .issuedAt(Date.from(Instant.ofEpochMilli(System.currentTimeMillis())))
-                .expiration(Date.from(Instant.ofEpochMilli(System.currentTimeMillis() + lifetime)))
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + lifetime))
                 .signWith(getSignInKey())
                 .compact();
     }

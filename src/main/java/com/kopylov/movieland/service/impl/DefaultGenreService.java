@@ -1,5 +1,6 @@
 package com.kopylov.movieland.service.impl;
 
+import com.kopylov.movieland.dto.GenreDto;
 import com.kopylov.movieland.entity.Genre;
 import com.kopylov.movieland.service.Cache;
 import com.kopylov.movieland.service.GenreService;
@@ -15,7 +16,7 @@ public class DefaultGenreService implements GenreService {
     private final Cache genreCache;
 
     @Override
-    public List<Genre> getAll() {
+    public List<GenreDto> getAll() {
         return genreCache.getAll();
     }
 }

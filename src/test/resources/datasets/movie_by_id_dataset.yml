@@ -44,6 +44,12 @@ REVIEWS:
 USERS:
   - ID: 3
     USERNAME: "Дарлин Эдвардс"
+    EMAIL: "darlin@gmail.com"
+    PASSWORD: "pas"
+    ROLE: "USER"
 
   - ID: 4
     USERNAME: "Габриэль Джексон"
+    EMAIL: "gab@gmail.com"
+    PASSWORD: "pas"
+    ROLE: "USER"

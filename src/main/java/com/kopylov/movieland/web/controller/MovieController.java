@@ -19,26 +19,26 @@ public class MovieController {
     private final MovieMapper movieMapper;
 
     @GetMapping
-    public List<MovieDto> getAllMovies(@RequestParam(name = "rating", required = false) SortOrder ratingSortOrder,
-                                       @RequestParam(name = "price", required = false) SortOrder priceSortOrder) {
+    public List<MovieDto> findAllMovies(@RequestParam(name = "rating", required = false) SortOrder ratingSortOrder,
+                                        @RequestParam(name = "price", required = false) SortOrder priceSortOrder) {
         return movieMapper.toDto(movieService.findAll(ratingSortOrder, priceSortOrder));
     }
 
     @GetMapping("/random")
-    public List<MovieDto> getRandomMovies() {
+    public List<MovieDto> findRandomMovies() {
         return movieMapper.toDto(movieService.findRandom());
     }
 
     @GetMapping("/genre/{genreId}")
-    public List<MovieDto> getMoviesByGenre(@PathVariable Long genreId,
-                                           @RequestParam(name = "rating", required = false) SortOrder ratingSortOrder,
-                                           @RequestParam(name = "price", required = false) SortOrder priceSortOrder) {
+    public List<MovieDto> findMoviesByGenre(@PathVariable Long genreId,
+                                            @RequestParam(name = "rating", required = false) SortOrder ratingSortOrder,
+                                            @RequestParam(name = "price", required = false) SortOrder priceSortOrder) {
         return movieMapper.toDto(movieService.findByGenre(genreId, ratingSortOrder, priceSortOrder));
     }
 
     @GetMapping(path = "/{id}")
-    public MovieDto getById(@PathVariable(value = "id") long movieId,
-                            @RequestParam(value = "currency", required = false) CurrencyType currencyType) {
+    public MovieDto findById(@PathVariable(value = "id") long movieId,
+                             @RequestParam(value = "currency", required = false) CurrencyType currencyType) {
         return movieMapper.toDto(movieService.findById(movieId, currencyType));
     }
 }
