@@ -1,19 +1,15 @@
 package com.kopylov.movieland.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@Entity
-@Table(name = "movies")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "movies")
 public class Movie {
 
     @Id
@@ -49,7 +45,7 @@ public class Movie {
     )
     private List<Country> countries;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -57,6 +53,10 @@ public class Movie {
     )
     private List<Genre> genres;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "movie_id",
+            referencedColumnName = "id"
+    )
     private List<Review> reviews;
 }

@@ -1,5 +1,6 @@
 package com.kopylov.movieland.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -7,8 +8,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
+    @Value("${nbu.uri}")
+    String uri;
+
     @Bean
     public WebClient webClient() {
-        return WebClient.create("${nbu.uri}");
+        return WebClient.create(uri);
     }
 }

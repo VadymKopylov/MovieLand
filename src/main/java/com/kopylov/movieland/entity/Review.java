@@ -1,29 +1,21 @@
 package com.kopylov.movieland.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
-@Table(name = "reviews")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "reviews")
 public class Review {
 
     @Id
     private int id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
     private String text;
-
-    @ManyToOne
-    @JoinColumn(name = "movie_id")
-    private Movie movie;
 }

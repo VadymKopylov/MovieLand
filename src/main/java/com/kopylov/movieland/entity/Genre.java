@@ -1,5 +1,6 @@
 package com.kopylov.movieland.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,5 +21,6 @@ public class Genre {
     private String name;
 
     @ManyToMany(mappedBy = "genres", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Movie> movies;
 }
