@@ -45,7 +45,7 @@ public class Movie {
     )
     private List<Country> countries;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -53,7 +53,7 @@ public class Movie {
     )
     private List<Genre> genres;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(
             name = "movie_id",
             referencedColumnName = "id"
