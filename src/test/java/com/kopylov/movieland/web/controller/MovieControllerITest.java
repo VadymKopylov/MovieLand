@@ -117,7 +117,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindAllMovies_WithSortingByRatingDesc() throws Exception {
-1`q        mockMvc.perform(get("/api/v1/movies")
+        mockMvc.perform(get("/api/v1/movies")
                         .param("rating", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -269,7 +269,7 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[3].id").value(2))
                 .andExpect(jsonPath("$[4].id").value(6));
 
-        //assertSelectCount(16);// ?? wtf
+        //assertSelectCount(16);
     }
 
     @Test
