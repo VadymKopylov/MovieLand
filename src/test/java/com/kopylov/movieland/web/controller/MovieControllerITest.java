@@ -78,6 +78,7 @@ class MovieControllerITest extends AbstractBaseITest {
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindRandomMovies_ReturnAllFieldsInJson() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies/random")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -88,12 +89,15 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[*].rating").exists())
                 .andExpect(jsonPath("$[*].price").exists())
                 .andExpect(jsonPath("$[*].picturePath").exists());
+
+        assertSelectCount(1);
     }
 
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindRandomMovies_ReturnUniqueMovies() throws Exception {
+        SQLStatementCountValidator.reset();
         MvcResult result = mockMvc.perform(get("/api/v1/movies/random")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -111,12 +115,14 @@ class MovieControllerITest extends AbstractBaseITest {
 
         assertThat(movieIds, hasSize(3));
         assertThat(movieIds, hasSize(equalTo(new HashSet<>(movieIds).size())));
+        assertSelectCount(1);
     }
 
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindAllMovies_WithSortingByRatingDesc() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies")
                         .param("rating", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -129,12 +135,14 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[5].id").value(5))
                 .andExpect(jsonPath("$[6].id").value(6))
                 .andExpect(jsonPath("$[7].id").value(4));
+        assertSelectCount(1);
     }
 
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindAllMovies_WithSortingByRatingAsc() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies")
                         .param("rating", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -147,12 +155,14 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[5].id").value(2))
                 .andExpect(jsonPath("$[6].id").value(1))
                 .andExpect(jsonPath("$[7].id").value(8));
+        assertSelectCount(1);
     }
 
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindAllMovies_WithSortingByPriceDesc() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies")
                         .param("price", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -165,12 +175,14 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[5].id").value(5))
                 .andExpect(jsonPath("$[6].id").value(3))
                 .andExpect(jsonPath("$[7].id").value(4));
+        assertSelectCount(1);
     }
 
     @Test
     @DataSet(value = "datasets/movies_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindAllMovies_WithSortingByPriceAsc() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies")
                         .param("price", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -183,12 +195,14 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[5].id").value(7))
                 .andExpect(jsonPath("$[6].id").value(6))
                 .andExpect(jsonPath("$[7].id").value(8));
+        assertSelectCount(1);
     }
 
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindMoviesByGenre_ReturnCorrectData() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies/genre/3")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -206,12 +220,15 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[1].rating").value(8.6))
                 .andExpect(jsonPath("$[1].price").value(145.55))
                 .andExpect(jsonPath("$[1].picturePath").value("https://images-na.ssl-images-amazon.com/images/I/81er5FoX-tL._AC_SY679_.jpg"));
+        assertSelectCount(1);
+
     }
 
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindMoviesByGenre_WithSortingByRatingDesc() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("rating", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -221,12 +238,15 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[2].id").value(3))
                 .andExpect(jsonPath("$[3].id").value(6))
                 .andExpect(jsonPath("$[4].id").value(4));
+        assertSelectCount(1);
+
     }
 
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindMoviesByGenre_WithSortingByRatingAsc() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("rating", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -236,12 +256,14 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[2].id").value(3))
                 .andExpect(jsonPath("$[3].id").value(2))
                 .andExpect(jsonPath("$[4].id").value(1));
+        assertSelectCount(1);
     }
 
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml",
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindMoviesByGenre_WithSortingByPriceDesc() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("price", "desc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -251,6 +273,7 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[2].id").value(1))
                 .andExpect(jsonPath("$[3].id").value(3))
                 .andExpect(jsonPath("$[4].id").value(4));
+        assertSelectCount(1);
     }
 
     @Test
@@ -258,7 +281,6 @@ class MovieControllerITest extends AbstractBaseITest {
             cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     public void testFindMoviesByGenre_WithSortingByPriceAsc() throws Exception {
         SQLStatementCountValidator.reset();
-
         mockMvc.perform(get("/api/v1/movies/genre/1")
                         .param("price", "asc")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -269,15 +291,17 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$[3].id").value(2))
                 .andExpect(jsonPath("$[4].id").value(6));
 
-        //assertSelectCount(16);
+        assertSelectCount(1);
     }
 
     @Test
     @DataSet(value = "datasets/movies_by_genre_dataset.yml")
     void testFindMoviesByGenre_ThrowExceptionWhenNoMoviesFound() throws Exception {
+        SQLStatementCountValidator.reset();
         mockMvc.perform(get("/api/v1/movies/genre/5")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+        assertSelectCount(1);
     }
 
     @Test
@@ -285,7 +309,6 @@ class MovieControllerITest extends AbstractBaseITest {
             cleanAfter = true, cleanBefore = true)
     public void testFindByIdMovie_ReturnCorrectJson() throws Exception {
         SQLStatementCountValidator.reset();
-
         mockMvc.perform(get("/api/v1/movies/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -305,11 +328,11 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$.countries[0].name").value("США"))
                 .andExpect(jsonPath("$.reviews[0].id").value(1))
                 .andExpect(jsonPath("$.reviews[0].user.id").value(3))
-                //.andExpect(jsonPath("$.reviews[0].user.username").value("Дарлин Эдвардс"))
+                .andExpect(jsonPath("$.reviews[0].user.username").value("Дарлин Эдвардс"))
                 .andExpect(jsonPath("$.reviews[0].text").value("Гениальное кино!"))
                 .andExpect(jsonPath("$.reviews[1].id").value(2))
                 .andExpect(jsonPath("$.reviews[1].user.id").value(4))
-                //.andExpect(jsonPath("$.reviews[1].user.username").value("Габриэль Джексон"))
+                .andExpect(jsonPath("$.reviews[1].user.username").value("Габриэль Джексон"))
                 .andExpect(jsonPath("$.reviews[1].text").value("Очень хороший фильм!"));
 
         assertSelectCount(3);
@@ -318,9 +341,11 @@ class MovieControllerITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movie_by_id_dataset.yml")
     void testFindByIdMovie_ThrowExceptionWhenNoFoundMovieById() throws Exception {
-        mockMvc.perform(get("/api/v1/movie/10")
+        SQLStatementCountValidator.reset();
+        mockMvc.perform(get("/api/v1/movies/10")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+        assertSelectCount(1);
     }
 
     @Test
@@ -339,7 +364,7 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$.nameNative").value("The Shawshank Redemption"))
                 .andExpect(jsonPath("$.price").value(24.4));
 
-        //assertSelectCount(6);
+        assertSelectCount(3);
     }
 
     private static MockHttpServletRequestBuilder postJson(String url, String content) {

@@ -1,5 +1,6 @@
-package com.kopylov.movieland.dto;
+package com.kopylov.movieland.dto.movie;
 
+import com.kopylov.movieland.dto.ReviewDto;
 import com.kopylov.movieland.entity.Country;
 import com.kopylov.movieland.entity.Genre;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class MovieDto {
+public class MovieFullInfoDto {
 
     private int id;
     private String nameRussian;

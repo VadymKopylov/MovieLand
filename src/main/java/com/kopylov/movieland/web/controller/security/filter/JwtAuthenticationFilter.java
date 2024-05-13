@@ -1,6 +1,6 @@
 package com.kopylov.movieland.web.controller.security.filter;
 
-import com.kopylov.movieland.service.impl.UserService;
+import com.kopylov.movieland.service.impl.MyUserDetailsService;
 import com.kopylov.movieland.web.controller.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,7 +26,7 @@ import static com.kopylov.movieland.web.controller.security.JwtService.AUTH_SCHE
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserService userService;
+    private final MyUserDetailsService myUserDetailsService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwtToken = authorizationHeader.substring(AUTH_SCHEME.length());
         userEmail = jwtService.extractUserName(jwtToken);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.loadUserByUsername(userEmail);
+            UserDetails userDetails = myUserDetailsService.loadUserByUsername(userEmail);
 
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
