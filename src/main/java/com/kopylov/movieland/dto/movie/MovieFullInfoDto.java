@@ -1,8 +1,8 @@
 package com.kopylov.movieland.dto.movie;
 
+import com.kopylov.movieland.dto.CountryDto;
+import com.kopylov.movieland.dto.GenreDto;
 import com.kopylov.movieland.dto.ReviewDto;
-import com.kopylov.movieland.entity.Country;
-import com.kopylov.movieland.entity.Genre;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +20,7 @@ public class MovieFullInfoDto {
     private double rating;
     private double price;
     private String picturePath;
-    private List<Country> countries;
-    private List<Genre> genres;
+    private List<CountryDto> countries;
+    private List<GenreDto> genres;
     private List<ReviewDto> reviews;
 }

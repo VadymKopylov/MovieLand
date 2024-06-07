@@ -32,6 +32,10 @@ public class DefaultJwtService implements JwtService {
                 .compact();
     }
 
+    public String getTokenFromHeader(String header) {
+        return header.substring(AUTH_SCHEME.length());
+    }
+
     public String extractUserName(String token) {
         return extractClaims(token, Claims::getSubject);
     }

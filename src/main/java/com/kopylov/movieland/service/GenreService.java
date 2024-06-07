@@ -7,4 +7,6 @@ import java.util.List;
 public interface GenreService {
 
     List<GenreDto> getAll();
+
+    List<GenreDto> getGenresByMovieId(int movieId);
 }
