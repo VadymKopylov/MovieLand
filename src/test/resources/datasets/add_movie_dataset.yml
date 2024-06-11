@@ -1,0 +1,37 @@
+MOVIES:
+  - ID: 1
+    NAME_RUSSIAN: "Побег из Шоушенка"
+    NAME_NATIVE: "The Shawshank Redemption"
+    YEAR_OF_RELEASE: "1994"
+    DESCRIPTION: "Успешный банкир Энди Дюфрейн обвинен в убийстве собственной жены и ее любовника."
+    RATING: 8.89
+    PRICE: 123.45
+    PICTURE_PATH: "https://images-na.ssl-images-amazon.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1._SY209_CR0,0,140,209_.jpg"
+
+MOVIE_GENRE:
+  - MOVIE_ID: 1
+    GENRE_ID: 1
+  - MOVIE_ID: 1
+    GENRE_ID: 2
+  - MOVIE_ID: 1
+    GENRE_ID: 3
+
+MOVIE_COUNTRY:
+  - MOVIE_ID: 1
+    COUNTRY_ID: 1
+  - MOVIE_ID: 1
+    COUNTRY_ID: 2
+
+COUNTRIES:
+  - ID: 1
+    NAME: 'США'
+  - ID: 2
+    NAME: 'Ирландия'
+
+GENRES:
+  - ID: 1
+    NAME: 'драма'
+  - ID: 2
+    NAME: 'криминал'
+  - ID: 3
+    NAME: 'триллер'

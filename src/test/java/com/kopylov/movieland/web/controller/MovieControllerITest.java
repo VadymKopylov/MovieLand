@@ -31,8 +31,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -335,7 +334,7 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$.reviews[1].user.username").value("Габриэль Джексон"))
                 .andExpect(jsonPath("$.reviews[1].text").value("Очень хороший фильм!"));
 
-        assertSelectCount(3);
+        assertSelectCount(6);
     }
 
     @Test
@@ -364,12 +363,28 @@ class MovieControllerITest extends AbstractBaseITest {
                 .andExpect(jsonPath("$.nameNative").value("The Shawshank Redemption"))
                 .andExpect(jsonPath("$.price").value(24.4));
 
-        assertSelectCount(3);
+        assertSelectCount(6);
     }
 
-    private static MockHttpServletRequestBuilder postJson(String url, String content) {
-        return post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content);
+    @Test
+    //@DataSet(value = "datasets/add_movie_dataset.yml")
+    @ExpectedDataSet(value = "datasets/add_movie_dataset.yml",ignoreCols = "id")
+    public void testAddMovieSaveCorrectEntity() throws Exception {
+        String json = "{"
+                + "\"nameRussian\": \"Побег из Шоушенка\","
+                + "\"nameNative\": \"The Shawshank Redemption\","
+                + "\"yearOfRelease\": \"1994\","
+                + "\"description\": \"Успешный банкир Энди Дюфрейн обвинен в убийстве собственной жены и ее любовника.\","
+                + "\"price\": 123.45,"
+                + "\"rating\": 8.89,"
+                + "\"picturePath\": \"https://images-na.ssl-images-amazon.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1._SY209_CR0,0,140,209_.jpg\","
+                + "\"countries\": [1, 2],"
+                + "\"genres\": [1, 2, 3]"
+                + "}";
+
+        mockMvc.perform(post("/api/v1/movies")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isCreated());
     }
 }

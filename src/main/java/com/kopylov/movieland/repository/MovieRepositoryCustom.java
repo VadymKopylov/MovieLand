@@ -9,5 +9,5 @@ public interface MovieRepositoryCustom {
 
     List<Movie> findAllSorted(SortOrder rating, SortOrder price);
 
-    List<Movie> findByGenreIdSorted(Long genreId, SortOrder ratingSortOrder, SortOrder priceSortOrder);
+    List<Movie> findByGenreIdSorted(int genreId, SortOrder ratingSortOrder, SortOrder priceSortOrder);
 }

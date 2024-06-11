@@ -9,5 +9,5 @@ import java.util.List;
 public interface CountryRepository extends JpaRepository<Country, Integer> {
 
     @Query("SELECT c FROM Country c JOIN c.movies m WHERE m.id = :movieId")
-    List<Country> findByMovieId(long movieId);
+    List<Country> findByMovieId(int movieId);
 }

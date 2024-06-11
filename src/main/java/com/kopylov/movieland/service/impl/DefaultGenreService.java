@@ -27,4 +27,9 @@ public class DefaultGenreService implements GenreService {
     public List<GenreDto> getGenresByMovieId(int movieId) {
         return genreMapper.toDtoList(genreRepository.findAllByMovieId(movieId));
     }
+
+    @Override
+    public List<GenreDto> getAllGenresByIds(List<Integer> ids) {
+        return genreMapper.toDtoList(genreRepository.findAllById(ids));
+    }
 }

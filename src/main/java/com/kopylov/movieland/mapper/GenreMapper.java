@@ -12,4 +12,6 @@ public interface GenreMapper {
     GenreDto toDto (Genre genre);
 
     List<GenreDto> toDtoList (List<Genre> genres);
+
+    List<Genre> toGenreList (List<GenreDto> genresDto);
 }

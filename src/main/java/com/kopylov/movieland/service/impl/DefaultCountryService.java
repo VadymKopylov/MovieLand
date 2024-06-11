@@ -20,4 +20,9 @@ public class DefaultCountryService implements CountryService {
     public List<CountryDto> getCountriesByMovieId(int movieId) {
         return countryMapper.toDtoList(countryRepository.findByMovieId(movieId));
     }
+
+    @Override
+    public List<CountryDto> getAllCountriesByIds(List<Integer> ids) {
+        return countryMapper.toDtoList(countryRepository.findAllById(ids));
+    }
 }

@@ -2,7 +2,6 @@ package com.kopylov.movieland.web.controller;
 
 import com.kopylov.movieland.dto.ReviewToSaveDto;
 import com.kopylov.movieland.service.MovieService;
-import com.kopylov.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

@@ -7,4 +7,6 @@ import java.util.List;
 public interface CountryService {
 
     List<CountryDto> getCountriesByMovieId(int movieId);
+
+    List<CountryDto> getAllCountriesByIds(List<Integer> ids);
 }

@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: Parallel
   datasource:
     url: jdbc:postgresql://localhost/test
     username: postgres

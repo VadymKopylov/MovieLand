@@ -27,7 +27,7 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom {
     }
 
     @Override
-    public List<Movie> findByGenreIdSorted(Long genreId, SortOrder ratingSortOrder, SortOrder priceSortOrder) {
+    public List<Movie> findByGenreIdSorted(int genreId, SortOrder ratingSortOrder, SortOrder priceSortOrder) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Movie> criteriaQuery = criteriaBuilder.createQuery(Movie.class);
         Root<Movie> root = criteriaQuery.from(Movie.class);

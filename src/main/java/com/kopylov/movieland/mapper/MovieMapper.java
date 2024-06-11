@@ -1,5 +1,6 @@
 package com.kopylov.movieland.mapper;
 
+import com.kopylov.movieland.dto.movie.MovieEditDto;
 import com.kopylov.movieland.dto.movie.MovieFullInfoDto;
 import com.kopylov.movieland.dto.movie.MovieShortInfoDto;
 import com.kopylov.movieland.entity.Movie;
@@ -17,6 +18,11 @@ public interface MovieMapper {
     @Mapping(target = "countries", ignore = true)
     @Mapping(target = "genres", ignore = true)
     MovieFullInfoDto toDtoForEnrichment(Movie movie);
+
+    @Mapping(target = "reviews", ignore = true)
+    @Mapping(target = "countries", ignore = true)
+    @Mapping(target = "genres", ignore = true)
+    Movie toEntity(MovieEditDto movieEditDto);
 
     List<MovieShortInfoDto> toShortDto(List<Movie> movies);
 }

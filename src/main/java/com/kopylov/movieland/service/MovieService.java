@@ -1,6 +1,7 @@
 package com.kopylov.movieland.service;
 
 import com.kopylov.movieland.dto.ReviewToSaveDto;
+import com.kopylov.movieland.dto.movie.MovieEditDto;
 import com.kopylov.movieland.dto.movie.MovieFullInfoDto;
 import com.kopylov.movieland.dto.movie.MovieShortInfoDto;
 import com.kopylov.movieland.entity.CurrencyType;
@@ -15,9 +16,17 @@ public interface MovieService {
 
     List<MovieShortInfoDto> findRandom();
 
-    List<MovieShortInfoDto> findByGenre(Long genreId, SortOrder rating, SortOrder price);
+    List<MovieShortInfoDto> findByGenre(int genreId, SortOrder rating, SortOrder price);
 
-    MovieFullInfoDto findById(long movieId, CurrencyType currencyType);
+    MovieFullInfoDto findById(int movieId, CurrencyType currencyType);
+
+    MovieFullInfoDto findInDb(int movieId);
 
     void addReview(ReviewToSaveDto review, String authHeader);
+
+    void addMovie(MovieEditDto movieEditDto);
+
+    void editMovie(MovieEditDto movieEditDto,int id);
+
+
 }

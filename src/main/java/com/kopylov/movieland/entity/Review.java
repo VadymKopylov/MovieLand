@@ -13,7 +13,7 @@ import lombok.*;
 public class Review {
 
     @Id
-    private long id;
+    private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
