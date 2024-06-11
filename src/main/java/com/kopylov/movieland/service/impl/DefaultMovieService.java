@@ -57,13 +57,13 @@ public class DefaultMovieService implements MovieService {
     @Override
     public MovieFullInfoDto findById(int movieId, CurrencyType currencyType) {
 
-        Movie movie = (Movie) movieCacheService.get(movieId);
+        MovieFullInfoDto movie = (MovieFullInfoDto) movieCacheService.get(movieId);
 
         if (currencyType != null) {
             double convertedPrice = currencyService.convertFromUah(movie.getPrice(), currencyType);
             movie.setPrice(convertedPrice);
         }
-        return movieMapper.toDto(movie);
+        return movie;
     }
 
     public MovieFullInfoDto findInDb(int movieId) {
@@ -78,8 +78,6 @@ public class DefaultMovieService implements MovieService {
         MovieFullInfoDto movieFullInfoDto = movieMapper.toDtoForEnrichment(movieFromDb);
 
         movieEnrichmentService.enrich(movieFullInfoDto, COUNTRIES, GENRES, REVIEWS);
-
-        movieCacheService.put(movieId, movieFullInfoDto);
 
         return movieFullInfoDto;
 

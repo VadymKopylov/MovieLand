@@ -30,7 +30,7 @@ public class AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
 
         UserDetails userDetails = myUserDetailsService.loadUserByUsername(signInRequest.getEmail());
-        Optional<User> user  = userRepository.findByEmail(signInRequest.getEmail());
+        Optional<User> user = userRepository.findByEmail(signInRequest.getEmail());
         String token = jwtService.generateToken(userDetails);
         String message = "Successfully Signed In";
 

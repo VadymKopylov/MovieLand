@@ -26,7 +26,7 @@ public interface MovieService {
 
     void addMovie(MovieEditDto movieEditDto);
 
-    void editMovie(MovieEditDto movieEditDto,int id);
+    void editMovie(MovieEditDto movieEditDto, int id);
 
 
 }

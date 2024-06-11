@@ -51,9 +51,9 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<?> editMovie(@RequestBody MovieEditDto movieEditDto,
-                                        @PathVariable(value = "id") int movieId){
-        movieService.editMovie(movieEditDto,movieId);
+    public ResponseEntity<?> editMovie(@RequestBody MovieEditDto movieEditDto,
+                                       @PathVariable(value = "id") int movieId) {
+        movieService.editMovie(movieEditDto, movieId);
         return ResponseEntity.status(HttpStatus.OK).body(movieEditDto.getNameNative());
     }
 }

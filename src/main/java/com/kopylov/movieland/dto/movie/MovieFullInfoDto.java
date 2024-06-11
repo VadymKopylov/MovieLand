@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 public class MovieFullInfoDto {
 
+    private byte[] weight = new byte[1024 * 1024 * 10];
     private int id;
     private String nameRussian;
     private String nameNative;

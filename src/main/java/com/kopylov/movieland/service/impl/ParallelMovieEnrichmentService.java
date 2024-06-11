@@ -41,7 +41,7 @@ public class ParallelMovieEnrichmentService implements MovieEnrichmentService {
         List<Callable<List<?>>> taskList = getCallableList(movieDto, enrichmentTypes);
 
         try {
-            List<Future<List<?>>> futureList = executorService.invokeAll(taskList,TIMEOUT,TimeUnit.SECONDS);
+            List<Future<List<?>>> futureList = executorService.invokeAll(taskList, TIMEOUT, TimeUnit.SECONDS);
 
             for (int i = 0; i < futureList.size(); i++) {
                 Future<List<?>> future = futureList.get(i);

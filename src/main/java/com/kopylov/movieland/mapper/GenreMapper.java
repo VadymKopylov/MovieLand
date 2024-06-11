@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface GenreMapper {
 
-    GenreDto toDto (Genre genre);
+    GenreDto toDto(Genre genre);
 
-    List<GenreDto> toDtoList (List<Genre> genres);
+    List<GenreDto> toDtoList(List<Genre> genres);
 
-    List<Genre> toGenreList (List<GenreDto> genresDto);
+    List<Genre> toGenreList(List<GenreDto> genresDto);
 }

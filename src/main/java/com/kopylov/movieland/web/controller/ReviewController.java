@@ -19,6 +19,6 @@ public class ReviewController {
     public void addReview(@RequestBody ReviewToSaveDto review,
                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
         log.info("Adding review");
-        movieService.addReview(review,authHeader);
+        movieService.addReview(review, authHeader);
     }
 }
